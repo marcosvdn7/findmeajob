@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://thymleaf.org" 
+	  xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout">
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<form method = "post">
+	
+		Titulo<input type = "text" th:value = "${post.titulo}" name = "titulo">
+		<div class = "row"></div>
+		Conteudo<input type = "text" th:value = "${post.conteudo}" name = "conteudo">
+		<div class = "row"></div>
+		Categorias<div 	th:each = "categoria : ${categorias}">
+					<label th:for = "${categoria.nomeCategoria}">
+						<input th:type = "checkbox" th:text = "${categoria.nomeCategoria}" th:value = "${categoria.idCategoria}" 
+						th:checked = "*{post.categorias.contains(categoria)}" th:name = "idCategorias">
+					</label>
+				  </div>
+			<button type = "submit">Editar</button>
+	</form>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+.container
+{
+    text-align: justify;
+    line-height: 2.0;
+}
+h1 {
+    color: #333;
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+    margin: 25px 0 50px;
+}
+h1::after {
+    content: "";
+    width: 100px;
+    position: absolute;
+    margin: 0 auto;
+    height: 3px;
+    background: #ffdc12;
+    left: 0;
+    right: 0;
+    bottom: -10px;
+}
+body {
+    background: #fff;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #ffdc12
+}
+
+.profile-button {
+    background: #ffdc12;
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #ffdc12
+}
+
+.profile-button:focus {
+    background: #ffdc12;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #ffdc12;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #ffdc12;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #ffdc12;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #ffdc12
+}
+.conta p
+{
+color:black;
+}

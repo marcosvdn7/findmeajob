@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href = "/style/css/login.css">
+</head>
+<body>
+    <div class="center">
+        <h1>Login</h1>
+        <form th:action = "@{/login}" th:object = "${usuario}" method = "post">
+            <div class="txt_field">
+                <input type = "email" name="username" required>
+                <label>Email</label>
+                <span></span>
+            </div>
+
+            <div class="txt_field">
+                <input type = "password" name="password" required>
+                <label>Senha</label>
+                <span></span>
+            </div>
+            <div class = "pass">Esqueci Senha</div>
+            <input type = "submit" value = "Login">
+            <div class="sing-up-link">
+                Não tem cadastro? <a th:href = "@{signUp}">Fazer Cadastro</a>
+            </div>
+
+        </form>
+    </div>
+   
+</body>
+</html>
