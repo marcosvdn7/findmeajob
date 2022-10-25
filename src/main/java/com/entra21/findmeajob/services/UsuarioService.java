@@ -83,8 +83,6 @@ public class UsuarioService {
 
 	private void atualizarDados(Usuario usuario, Usuario usuarioEditado) {
 		usuario.setNomeCompleto(usuarioEditado.getNomeCompleto());
-		usuario.setEmail(usuarioEditado.getEmail());
 		usuario.setDataNascimento(usuarioEditado.getDataNascimento());
-		usuario.setSenha(usuarioEditado.getSenha());
 	}
 }

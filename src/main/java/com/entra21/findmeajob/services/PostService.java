@@ -124,10 +124,6 @@ public class PostService {
 		
 		for (int i = 1; i < posts.size(); i++) {
 			publicacoesRecentes.add(posts.get(posts.size() - i));
-			
-			if(i == 11) {
-				break;
-			}
 		}
 		
 		return publicacoesRecentes;

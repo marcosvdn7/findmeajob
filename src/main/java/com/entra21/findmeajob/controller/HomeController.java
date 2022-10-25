@@ -14,7 +14,7 @@ import com.entra21.findmeajob.services.UtilityService;
 @Controller
 @RequestMapping("/home")
 public class HomeController {
-	
+		
 	@Autowired
 	private PostService postService;
 	
@@ -24,8 +24,7 @@ public class HomeController {
 	@GetMapping
 	public ModelAndView home(){
 		ModelAndView mv = new ModelAndView("usuario/home");
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Usuario usuario = utility.getUsuarioLogado(principal);
+		Usuario usuario = utility.getUsuarioLogado();
 		String temFoto = utility.temFotoPerfil(usuario);
 		
 		mv.addObject("posts", postService.listarTodos());

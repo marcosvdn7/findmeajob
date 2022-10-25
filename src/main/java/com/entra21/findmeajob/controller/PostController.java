@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +18,7 @@ import com.entra21.findmeajob.models.Categoria;
 import com.entra21.findmeajob.models.Post;
 import com.entra21.findmeajob.models.Usuario;
 import com.entra21.findmeajob.repository.CategoriaRepository;
-import com.entra21.findmeajob.security.DetalheUsuario;
 import com.entra21.findmeajob.services.PostService;
-import com.entra21.findmeajob.services.UsuarioService;
 import com.entra21.findmeajob.services.UtilityService;
 
 @Controller
@@ -37,23 +34,16 @@ public class PostController {
 	@Autowired
 	private CategoriaRepository cr;
 	
-	@Autowired
-	private UsuarioService usuarioService;	
-	
 	//REDIRECIONA PARA A PAGINA DE PUBLICAÇÂO DE POST
 	@GetMapping(value = "/{idUsuario}/publicarPost")
 	public ModelAndView publicarPost(@PathVariable Integer idUsuario) {
 		ModelAndView mv = new ModelAndView("post/telaCriarPost");
 		ArrayList<Categoria> categorias = (ArrayList<Categoria>)cr.findAll();
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Usuario usuario = utility.getUsuarioLogado();
+		String temFoto = utility.temFotoPerfil(usuario);
 		
-		if (principal instanceof DetalheUsuario) {
-			DetalheUsuario detalheUsuario = (DetalheUsuario) principal;
-			Usuario usuario = usuarioService.findById(detalheUsuario.getIdUsuarioLogado());
-			mv.addObject("usuario", usuario);
-		}
-		
-		
+		mv.addObject("usuario", usuario);
+		mv.addObject("temFoto", temFoto);
 		mv.addObject("categorias", categorias);
 		return mv;
 	}
@@ -71,10 +61,19 @@ public class PostController {
 	//MOSTRA UMA LISTA COM TODAS AS PUBLICAÇÕES CADASTRADAS
 	//NO BANCO DE DADOS
 	@GetMapping(value = "/listaPosts")
-	public ResponseEntity<List<Post>> listaPost() {
-		List<Post> posts = ps.listarTodos();
+	public ModelAndView listarPost() {
+		ModelAndView mv = new ModelAndView("post/listaPublicacoes");
+		Usuario usuario = utility.getUsuarioLogado();
+		String temFoto = utility.temFotoPerfil(usuario);
+		List<Post> posts = ps.publicacoesRecentes();
+//		Collections.sort(posts, Collections.reverseOrder());
 		
-		return ResponseEntity.ok().body(posts);		
+		mv.addObject("fotosUsuarioPost", utility.usuarioPostTemFoto(posts));
+		mv.addObject("usuario", usuario);
+		mv.addObject("temFoto", temFoto);
+		mv.addObject("posts", posts);
+		
+		return mv;	
 	}
 	
 	//EXCLUI UMA PUBLICAÇÃO
@@ -89,8 +88,7 @@ public class PostController {
 	@GetMapping(value = "/{idPublicacao}")
 	public ModelAndView mostrarPost(@PathVariable Long idPublicacao){
 		ModelAndView mv = new ModelAndView("post/verPost");
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Usuario usuario = utility.getUsuarioLogado(principal);
+		Usuario usuario = utility.getUsuarioLogado();
 		String temFoto = utility.temFotoPerfil(usuario);
 		Post post = ps.findById(idPublicacao);
 		
@@ -103,11 +101,15 @@ public class PostController {
 	
 	@GetMapping(value = "/editarPublicacao/{idUser}/{idPost}")
 	public ModelAndView editarPublicacao(@PathVariable Integer idUser, @PathVariable Long idPost, Post post) {
-		List<Categoria> categorias = cr.findAll();
 		ModelAndView mv = new ModelAndView("post/editarPublicacao");
-		post = ps.findById(idPost);
+		Usuario usuario = utility.getUsuarioLogado();
+		String temFoto = utility.temFotoPerfil(usuario);
+		List<Categoria> categorias = cr.findAll();
+		
+		mv.addObject("usuario", usuario);
+		mv.addObject("temFoto", temFoto);
 		mv.addObject("categorias", categorias);
-		mv.addObject("post", post);
+		mv.addObject("post", post = ps.findById(idPost));
 		
 		return mv;
 		}

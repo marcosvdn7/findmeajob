@@ -53,7 +53,7 @@
 	          <li>
               <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Categorias</a>
               <ul class="collapse list-unstyled" id="pageSubmenu">
-                <li>
+              	<li>
                     <a th:href="@{/publicacoes/listaPosts}">Todos</a>
                 </li>
                <li>
@@ -127,41 +127,38 @@
             <!-- begin #profile-post tab -->
             <div class="tab-pane fade active show" id="profile-post">
                <!-- begin timeline -->
-               <ul class="timeline">
+               <ul th:each = "post : ${posts}" class="timeline">
                   <li>
 
                      <!-- begin timeline-body -->
                      <div class="timeline-body">
                         <div class="timeline-header">
                            <span >
-								<th:block th:switch = "${temFoto}"> 
-									<img th:case = "'sim'" th:src = "${usuario.getFotoPerfil}" class="userimage" width="100">
-									<img th:case = "'nao'" src = "/style/images/photo.png" class="userimage" width="100">
-								</th:block>                           
+									<img src = "/style/images/photo.png" class="userimage" width="100">
                            </span>
                            <span class="username" th:text = "${post.usuario.nomeCompleto}">Nome Sobrenome</span><br>
                            <small class="treb"></small>
                            <br><br>
-                           
                            <h2 class="Ppp" th:text = "${post.titulo}"></h2>
                            <small class="treb" ></small>
 
                         </div>
-                        <div class="timeline-content">
+                        <div  class="timeline-content">
                            <p th:text = "${post.conteudo}"></p>
                         </div>
                         <br>
-                                   <button th:if = "${post.usuario.userId} == ${usuario.userId}" type="button" class="btn btn-danger" style="height:35px">Deletar</button>
-                                   <button th:if = "${post.usuario.userId} == ${usuario.userId}" type="button" class="btn btn-warning" style="height:35px">Editar</button>
+                                   <button type="button" class="btn btn-danger" style="height:35px">Deletar</button>
+                                   <button type="button" class="btn btn-warning" style="height:35px">Editar</button>
                                    <br>
                                    <br>
                         <div>
-                           <small th:text = "${post.usuario.endereco.cidade}">Localização: Gaspar</small>
+                           <!-- <small th:text = "${post.usuario.endereco.cidade}">Localização: Gaspar</small> -->
                         </div>
                      </div>
                      <!-- end timeline-body -->
                   </li>
                </ul>
+               </div>
          </div>
    </main>
 </body>

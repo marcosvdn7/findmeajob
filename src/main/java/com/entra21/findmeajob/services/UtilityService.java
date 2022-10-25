@@ -1,5 +1,6 @@
 package com.entra21.findmeajob.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class UtilityService {
 	@Autowired
 	private PostService postService;
 	
-	public Usuario getUsuarioLogado(Object object) {
+	public Usuario getUsuarioLogado() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		DetalheUsuario detalheUsuario = (DetalheUsuario) principal;
 		Usuario usuario = usuarioService.findById(detalheUsuario.getIdUsuarioLogado());
@@ -41,6 +42,15 @@ public class UtilityService {
 		List<Post> publicacoesProximas = postService.buscarPorEndereco(usuario.getEndereco().getId());
 		
 		return publicacoesProximas;
+	}
+	
+	public List<Post> usuarioPostTemFoto(List<Post> posts){
+		List<String> temFotos = new ArrayList<String>();
+		for (Post post : posts) {
+			temFotos.add(temFotoPerfil(post.getUsuario()));
+		}
+		
+		return posts;
 	}
 
 }

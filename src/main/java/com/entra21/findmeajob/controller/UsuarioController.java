@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,7 +46,7 @@ public class UsuarioController {
 
 		us.cadastrar(usuario);
 
-		return "redirect:/home";
+		return "redirect:/usuarios/login";
 	}
 
 	@GetMapping("/login")
@@ -79,13 +78,11 @@ public class UsuarioController {
 	@GetMapping(value = "/perfilUsuario/meuPerfil")
 	public ModelAndView perfilUsuarioLogado() {
 		ModelAndView mv = new ModelAndView("usuario/perfilLogado");
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Usuario usuario = utility.getUsuarioLogado(principal);
-		Post post = usuario.getPosts().get(0);
+		Usuario usuario = utility.getUsuarioLogado();
+		List<Post> posts = postService.listarPorUsuario(usuario.getUserId());
 		String temFoto = utility.temFotoPerfil(usuario);
 		
-		mv.addObject("post", post);
-		mv.addObject("posts", postService.listarTodos());
+		mv.addObject("posts", posts);
 		mv.addObject("usuario", usuario);
 		mv.addObject("temFoto", temFoto);
 		return mv;
@@ -94,6 +91,11 @@ public class UsuarioController {
 	@GetMapping(value = "/editarPerfil/{idUsuario}")
 	public ModelAndView editarPerfil(@PathVariable Integer idUsuario) {
 		ModelAndView mv = new ModelAndView("usuario/editarPerfil");
+		Usuario usuario = utility.getUsuarioLogado();
+		String temFoto = utility.temFotoPerfil(usuario);
+		
+		mv.addObject("usuario", usuario);
+		mv.addObject("temFoto", temFoto);
 		mv.addObject("usuario", us.findById(idUsuario));
 
 		return mv;
