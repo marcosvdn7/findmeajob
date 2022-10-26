@@ -137,10 +137,10 @@
 								<img th:if = "${post.usuario.fotoPerfil} != null" th:src = "${post.usuario.fotoPerfil}" class="userimage"/>
 								<img th:if = "${post.usuario.fotoPerfil} == null" src = "/style/images/photo.png" class="userimage"/>
                            </span>
-                           <span class="username" th:text = "${post.usuario.nomeCompleto}">Nome Sobrenome</span><br>
+                           <a class="username mudar-cor" th:href = "@{/usuarios/perfilUsuario/{idUsuario}(idUsuario=${post.usuario.userId})}" th:text = "${post.usuario.nomeCompleto}">Nome Sobrenome</a><br>
                            <small class="treb"></small>
                            <br><br>
-                           <a th:href = "@{/publicacoes/{idPublicacao}(idPublicacao=${post.getIdPublicacao})}"><h2 class = "mudar-titulo-cor" th:text = "${post.titulo}"></h2></a>
+                           <a th:href = "@{/publicacoes/{idPublicacao}(idPublicacao=${post.getIdPublicacao})}"><h2 class = "mudar-cor" th:text = "${post.titulo}"></h2></a>
                            <small class="treb" ></small>
 
                         </div>
@@ -260,7 +260,7 @@
 	.carousel-indicators li.active {		
 		background: #888;		
 	}
-	.mudar-titulo-cor:hover {
+	.mudar-cor:hover {
    		color: #ffc107;
 	}
 	</style>
