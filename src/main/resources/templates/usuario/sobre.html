@@ -12,8 +12,8 @@
 			
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	
-	<link rel="stylesheet" href="style/css/styleSobre.css">
-	<link rel="stylesheet" href="style/css/menuSobre.css">
+	<link rel="stylesheet" href="/style/css/styleSobre.css">
+	<link rel="stylesheet" href="/style/css/menuSobre.css">
 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" />
@@ -24,100 +24,57 @@
 		<div class="wrapper d-flex align-items-stretch">
 			<nav id="sidebar">
 				<div class="p-4 pt-5">
-		  		<a href="#" class="img logo rounded-circle mb-5" style="background-image: url(/style/images/logo.jpg);"></a>
+				<th:block th:switch = "${temFoto}"> 
+					<img th:case = "'sim'" th:src = "${usuario.getFotoPerfil}" class = "img-fluid profile-image logo rounded-circle mb-5" width="100">
+					<img th:case = "'nao'" src = "/style/images/photo.png" class = "img-fluid profile-image logo rounded-circle mb-5" width="100">
+				</th:block>
 	        <ul class="list-unstyled components mb-5">
 	          <li class="active">
 	            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Perfil</a>
 	            <ul class="collapse list-unstyled" id="homeSubmenu">
                 <li>
-                    <a href="#">Ver Perfil</a>
+                    <a th:href = "@{/usuarios/perfilUsuario/meuPerfil}">Ver Perfil</a>
                 </li>
                 <li>
-                    <a href="#">Editar Perfil</a>
+                    <a th:href = "@{/usuarios/editarPerfil/{idUsuario}(idUsuario=${usuario.getUserId})}">Editar Perfil</a>
 				</li>
 				<li>
-					<a  data-toggle="modal" data-target="#exampleModal">
+					<a th:href = "@{/publicacoes/{idUsuario}/publicarPost(idUsuario=${usuario.getUserId})}">
 						Criar Post
 					</a>
-					<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document">
-						  <div class="modal-content">
-							<div class="modal-header">
-							  <h5 class="modal-title" id="exampleModalLabel">Criar Post</h5>
-							  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							  </button>
-							</div>
-							<div class="modal-body">
-							  <form class="conta">
-								<div class="form-group">
-								  <label for="recipient-name" class="col-form-label"><p>Conta</p></label>
-								  <input type="text" class="form-control" id="recipient-name">
-								</div>
-								<div class="form-group">
-									<label for="recipient-name" class="col-form-label"><p>Titulo</p></label>
-									<input type="text" class="form-control" id="recipient-name">
-								  </div>
-								<div class="form-group">
-									<label for="message-text" class="col-form-label"><p>Texto de Assunto</p></label>
-									<textarea class="form-control" id="message-text"></textarea>
-								  </div>
-								    
-								  <div class = "row"></div>Categorias
-								  <div 	th:each = "categoria : ${categorias}">
-								<label th:for = "${categoria.nomeCategoria}">
-								<input th:type = "checkbox" th:text = "${categoria.nomeCategoria}" th:value = "${categoria.idCategoria}" th:checked = "*{post.categorias.contains(categoria)}" th:name = "idCategorias">
-								</label>
-								  </div>
-								  
-							  </form>
-							</div>
-							<div class="modal-footer">
-							  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							  <button type="button" class="btn btn-primary">Publicar Postagem</button>
-							</div>
-						  </div>
-						</div>
-					  </div>
                 </li>
                 <li>
-                    <a href="#">Sair do Site</a>
+                    <a href="/logout">Sair do Site</a>
                 </li>
 	            </ul>
 	          </li>
 	          <li>
-              <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pesquisa</a>
+              <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Categorias</a>
               <ul class="collapse list-unstyled" id="pageSubmenu">
-				<li>
-                    <a href="#">Page 1</a>
+              	<li>
+                    <a th:href="@{/publicacoes/listaPosts}">Todos</a>
+                </li>
+               <li>
+                    <a th:href="@{/publicacoes/categorias/1}">Advogado</a>
                 </li>
                 <li>
-                    <a href="#">Page 2</a>
+                    <a th:href="@{/publicacoes/categorias/2}">Confeitaria</a>
                 </li>
                 <li>
-                    <a href="#">Page 3</a>
+                    <a th:href="@{/publicacoes/categorias/3}">Costureira</a>
 				</li>
 				<li>
-                    <a href="#">Page 4</a>
+                    <a th:href="@{/publicacoes/categorias/4}">Carpinteiro</a>
 				</li>
 				<li>
-                    <a href="#">Page 5</a>
+                    <a th:href="@{/publicacoes/categorias/5}">Mecanico</a>
 				</li>
 				<li>
-                    <a href="#">Page 6</a>
+                    <a th:href="@{/publicacoes/categorias/6}">Arquiteto</a>
 				</li>
 				<li>
-                    <a href="#">Page 7</a>
+                    <a th:href="@{/publicacoes/categorias/7}">Pedreiro</a>
 				</li>
-				<li>
-                    <a href="#">Page 8</a>
-				</li>
-				<li>
-                    <a href="#">Page 9</a>
-				</li>
-				<li>
-                    <a href="#">Page 10</a>
-                </li>
               </ul>
 	          </li>
 	        </ul>
@@ -149,10 +106,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="/home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Projeto</a>
+                    <a class="nav-link" href="/sobre">Projeto</a>
                 </li>
               </ul>
             </div>
@@ -191,7 +148,7 @@
 					<div class="carousel-item active">
 						<div class="img-box"><img src="/style/images/fotoperfil.jpg"></div>
 						<p class="testimonial">Phasellus vitae suscipit justo. Mauris pharetra feugiat ante id lacinia. Etiam faucibus mauris id tempor egestas. Duis luctus turpis at accumsan tincidunt. Phasellus risus risus, volutpat vel tellus ac, tincidunt fringilla massa. Etiam hendrerit dolor eget rutrum.</p>
-						<p class="overview"><b>Marcos Vinicius</b>Back End e Banco de Dados<br><a href="http://www.linkedin.com/in/marcosvdn" target="_blank">Perfil Linkedin / </a><a href = "https://github.com/marcosvdn7" target="_blank">Perfil Github</a></p>
+						<p class="overview"><b>Marcos Vinicius</b>Back End e Banco de Dados<br><a href="http://www.linkedin.com/in/marcosvdn" target="_blank">linkedin/marcosvdn / </a><a href = "https://github.com/marcosvdn7" target="_blank">github.com/marcosvdn7</a></p>
 						<!--<div class="star-rating">
 							<ul class="list-inline">
 								<li class="list-inline-item"><i class="fa fa-star"></i></li>
@@ -205,7 +162,7 @@
 					<div class="carousel-item">
 						<div class="img-box"><img src="/style/images/fotoGabriel.jpg" alt=""></div>
 						<p class="testimonial">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu sem tempor, varius quam at, luctus dui. Mauris magna metus, dapibus nec turpis vel, semper malesuada ante. Vestibulum idac nisl bibendum scelerisque non non purus. Suspendisse varius nibh non aliquet.</p>
-						<p class="overview"><b>Gabriel Roger</b>Front End<br><a href="https://www.linkedin.com/in/gabriel-roger-da-cunha-ab6512231/" target="_blank">Perfil Linkedin / </a><a href = "https://github.com/Rogerzin" target="_blank">Perfil Github</a></p>
+						<p class="overview"><b>Gabriel Roger</b>Front End<br><a href="https://www.linkedin.com/in/gabriel-roger-da-cunha-ab6512231/" target="_blank">linkedin.com/in/gabriel-roger / </a><a href = "https://github.com/Rogerzin" target="_blank">github.com/Rogerzin</a></p>
 						<!--<div class="star-rating">
 							<ul class="list-inline">
 								<li class="list-inline-item"><i class="fa fa-star"></i></li>
@@ -218,8 +175,8 @@
 					</div>
 					<div class="carousel-item">
 						<div class="img-box"><img src="/style/images/logo.jpg" alt=""></div>
-						<p class="testimonial">Vestibulum quis quam ut magna consequat faucibus. Pellentesque eget nisi a mi suscipit tincidunt. Utmtc tempus dictum risus. Pellentesque viverra sagittis quam at mattis. Suspendisse potenti. Aliquam sit amet gravida nibh, facilisis gravida odio. Phasellus auctor velit.</p>
-						<p class="overview"><b>Nicole Alves</b>Back End e Banco de Dados<br><a href="https://www.linkedin.com/in/nicole-fernanda/" target="_blank">Perfil Linkedin / </a><a href = "https://github.com/NicoleFernanda" target="_blank">Perfil Github</a></p>
+						<p class="testimonial">Nicole,18 anos, gosta de fazer pilates e está no segundo semestre de Sistemas de Informação na FURB. Entrou no Entra21, pois está em ingressão de carreira na área de tecnologia. Um de seus maiores sonhos é trabalhar fora ou para fora, já que valoriza muito o seu inglês é fluente.</p>
+						<p class="overview"><b>Nicole Alves</b>Back End e Banco de Dados<br><a href="https://www.linkedin.com/in/nicole-fernanda/" target="_blank">linkedin.com/in/nicole-fernanda / </a><a href = "https://github.com/NicoleFernanda" target="_blank">github.com/NicoleFernanda</a></p>
 						<!--<div class="star-rating">
 							<ul class="list-inline">
 								<li class="list-inline-item"><i class="fa fa-star"></i></li>
@@ -232,8 +189,9 @@
 					</div>
 					<div class="carousel-item">
 						<div class="img-box"><img src="/style/images/fotojao.jpeg" alt=""></div>
-						<p class="testimonial">Vestibulum quis quam ut magna consequat faucibus. Pellentesque eget nisi a mi suscipit tincidunt. Utmtc tempus dictum risus. Pellentesque viverra sagittis quam at mattis. Suspendisse potenti. Aliquam sit amet gravida nibh, facilisis gravida odio. Phasellus auctor velit.</p>
-						<p class="overview"><b>João Roma</b>Front End<br><a href="https://www.linkedin.com/in/jo%C3%A3o-roma-3703581a3/" target="_blank">Perfil Linkdlin / </a><a href = "https://github.com/JoaozRoma" target="_blank">Perfil Github</a></p>
+						<p class="testimonial">João Roma, 18 anos, gosta de treinar aves e está no entra21 pois quer ingressar no mercado de trabalho na área de tecnologia
+com dois tecnicos sendo um deles de Mecânica Industrial(Cedup) e Desenvolvimento de Sistemas (Senai).Seu sonho é morar fora do país e criar uma carreira de sucesso mundo a fora.</p>
+						<p class="overview"><b>João Roma</b>Front End<br><a href="https://www.linkedin.com/in/jo%C3%A3o-roma-3703581a3/" target="_blank">linkedin.com/in/joao-roma / </a><a href = "https://github.com/JoaozRoma" target="_blank">github.com/JoaozRoma</a></p>
 						<!--<div class="star-rating">
 							<ul class="list-inline">
 								<li class="list-inline-item"><i class="fa fa-star"></i></li>

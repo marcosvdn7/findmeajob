@@ -192,10 +192,10 @@
                                 <div class="timeline-body">
                                    <div class="timeline-header">
                                       <span class="userimage">
-                                      <th:block th:switch = "${temFoto}"> 
-											<img th:case = "'sim'" th:src = "${usuario.getFotoPerfil}" class="userimage" width="100">
-											<img th:case = "'nao'" src = "/style/images/photo.png" class="userimage" width="100">
-									  </th:block>
+	                                      <th:block th:switch = "${temFoto}"> 
+												<img th:case = "'sim'" th:src = "${usuario.getFotoPerfil}" class="userimage" width="100">
+												<img th:case = "'nao'" src = "/style/images/photo.png" class="userimage" width="100">
+										  </th:block>
                                       </span>
                                       <span class="username" th:text = "${usuario.nomeCompleto}">Nome Sobrenome</span><br>
                                       <small></small>

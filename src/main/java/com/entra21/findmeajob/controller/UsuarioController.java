@@ -69,9 +69,18 @@ public class UsuarioController {
 
 	@GetMapping(value = "/perfilUsuario/{idUsuario}")
 	public ModelAndView perfilUsuario(@PathVariable Integer idUsuario) {
-		ModelAndView mv = new ModelAndView("usuario/telaVerPerfilUsuario");
+		ModelAndView mv = new ModelAndView("usuario/perfilUsuario");
 		Usuario usuario = us.findById(idUsuario);
+		Usuario usuarioLogado = utility.getUsuarioLogado();
+		List<Post> posts = postService.listarPorUsuario(usuario.getUserId());
+		String temFoto = utility.temFotoPerfil(usuario);
+		String fotoUsuarioLogado = utility.temFotoPerfil(usuarioLogado);
+		
+		mv.addObject("fotoUsuarioLogado", fotoUsuarioLogado);
+		mv.addObject("posts", posts);
 		mv.addObject("usuario", usuario);
+		mv.addObject("usuarioLogado", usuarioLogado);
+		mv.addObject("temFoto", temFoto);
 		return mv;
 	}
 	

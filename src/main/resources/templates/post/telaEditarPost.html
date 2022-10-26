@@ -104,10 +104,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="/home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Projeto</a>
+                    <a class="nav-link" href="/sobre">Projeto</a>
                 </li>
               </ul>
             </div>
@@ -135,7 +135,7 @@
             <div class = "container">
             
             
-           <form th:object = "${post}" th:action = "@{publicarPost}" method = "post" id="contact-form" role="form">
+           <form th:object = "${post}" th:action="@{/publicacoes/editarPublicacao/{idPost}(idPost=${post.idPublicacao})}" method = "post" id="contact-form" role="form">
             <div class="controls">
 
                 <div class="row">
@@ -143,22 +143,21 @@
                         <div class="form-group">
                             <label for="form_name">Titulo</label>
 							<!--Apagar esse input-->
-                            <input id="form_name" type="text" name="titulo" class="form-control" placeholder="" required="required" data-error="Firstname is required.">
+                            <input th:value = "${post.titulo}" id="form_name" type="text" name="titulo" class="form-control" placeholder="" required="required" data-error="Firstname is required.">
                             
                         </div>
                     </div>
                 </div>
-                Categorias: <br><div class="rogerio" th:each = "categoria : ${categorias}">
+                Categorias: <br><div th:each = "categoria : ${categorias}">
 						
-							<input th:type = "checkbox" th:value = "${categoria.idCategoria}" name = "chk" th:name = "idCategorias" onclick = "return myfun()" required/>
+							<input th:checked = "${post.categorias.contains(categoria)}" th:type = "checkbox" th:value = "${categoria.idCategoria}" name = "chk" th:name = "idCategorias" onclick = "return myfun()"/>
 							<label th:text = "${categoria.nomeCategoria}" ></label>
 						</div>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label for="form_message">Texto da Postagem</label>
-							<textarea id="form_message" name="conteudo" class="form-control" placeholder="Digite seu texto" rows="4" required="required" data-error="Please, leave us a message."></textarea
-								>
+							<label for="form_message">Conteudo da Publicação</label>
+							<textarea th:field = "*{conteudo}" id="form_message" name="conteudo" class="form-control" th:value = "${post.conteudo}" rows="4" required="required" data-error="Please, leave us a message."></textarea>
 							</div>
 
 						</div>
@@ -166,7 +165,7 @@
 
 					<div class="col-md-12">
 						
-						<input type="submit" class="btn btn-success btn-send  pt-2 btn-block" value="POSTAR" style="background-color:#ffc107;border-color: #ffc107;">
+						<button type="submit" class="btn btn-success btn-send  pt-2 btn-block" th:href="@{publicacoes/editarPublicacao/{idPost}(idPost=${post.idPublicacao})}" style="background-color:#ffc107;border-color: #ffc107;">Editar</button>
 					
 				</div>
 		  

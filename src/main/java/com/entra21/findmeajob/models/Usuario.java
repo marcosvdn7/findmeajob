@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.entra21.findmeajob.models.enums.PermissaoUsuario;
+import com.entra21.findmeajob.services.UtilityService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity

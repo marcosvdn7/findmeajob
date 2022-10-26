@@ -33,19 +33,21 @@ public class PostService {
 	@Autowired
 	private EnderecoRepository er;
 
-	public void publicar(Post post, Integer idUsuario, ArrayList<Long> idCategorias) {
+	public boolean publicar(Post post, Integer idUsuario, ArrayList<Long> idCategorias) {
 		Optional<Usuario> usuario = ur.findById(idUsuario);
 		if (adicionarCategoria(post, idCategorias) == null) {
-			
+			return false;
 		}
 		post.setDataPublicacao(Instant.now());
 		post.setUsuario(usuario.get());
 
 		pr.save(post);
+		
+		return true;
 	}
 
-	public Post findById(Long postId) {
-		Optional<Post> obj = pr.findById(postId);
+	public Post findById(Long idPublicacao) {
+		Optional<Post> obj = pr.findById(idPublicacao);
 
 		return obj.get();
 	}
@@ -69,41 +71,54 @@ public class PostService {
 		return publicacoesCategoria;
 	}
 	
-	public void deletar(Long postId) {
-		Optional<Post> post = pr.findById(postId);
+	public void deletar(Long idPublicacao) {
+		Optional<Post> post = pr.findById(idPublicacao);
 		pr.delete(post.get());
 	}
-
-	public Post editar(Long idPost, Integer idUsuario, Post postEditado, ArrayList<Long> idCategorias) {
-		Optional<Post> optPost = pr.findById(idPost);
-		atualizarDados(optPost.get(), idUsuario, postEditado);
-		editarCategoria(optPost.get(), idCategorias);
-		return pr.save(optPost.get());
-	}
-
-	private void atualizarDados(Post post, Integer idUsuario, Post postEditado) {
-		// BUSCA AS CATEGORIAS E O USUARIO QUE FEZ A PUBLICACAO
-		Optional<Usuario> optUsuario = ur.findById(idUsuario);
-
-		// ATUALIZA OS DADOS EDITADOS
-		post.setTitulo(postEditado.getTitulo());
+	
+	public void editar(Long idPublicacao, Post postEditado) {
+		Optional<Post> optPost = pr.findById(idPublicacao);
+		Post post = optPost.get();
 		post.setConteudo(postEditado.getConteudo());
-		post.setUsuario(optUsuario.get());
+		post.setTitulo(postEditado.getTitulo());
+		post.setDataPublicacao(postEditado.getDataPublicacao());
+		post.setCategorias(postEditado.getCategorias());
 	}
 
-	private Post editarCategoria(Post post, ArrayList<Long> idCategorias) {
-		List<Categoria> categorias = new ArrayList<>();
-		for (int i = 0; i < idCategorias.size(); i++) {
-			Optional<Categoria> optCategoria = cr.findById(idCategorias.get(i));
-			categorias.add(optCategoria.get());
-		}
-		for (Categoria categoria : categorias) {
-			post.getCategorias().add(categoria);
-		}
-		return post;
-	}
+//	public Post editar(Long idPost, Post postEditado, ArrayList<Long> idCategorias) {
+//		Optional<Post> optPost = pr.findById(idPost);
+//		atualizarDados(optPost.get(), postEditado);
+//		editarCategoria(optPost.get(), idCategorias);
+//		System.out.println(optPost.get().getConteudo());
+//		return pr.save(optPost.get());
+//	}
+
+//	private void atualizarDados(Post post, Post postEditado) {
+//		// BUSCA AS CATEGORIAS E O USUARIO QUE FEZ A PUBLICACAO
+//
+//		// ATUALIZA OS DADOS EDITADOS
+//		post.setTitulo(postEditado.getTitulo());
+//		post.setConteudo(postEditado.getConteudo());
+//	}
+
+//	private Post editarCategoria(Post post, ArrayList<Long> idCategorias) {
+//		List<Categoria> categorias = new ArrayList<>();
+//		for (int i = 0; i < idCategorias.size(); i++) {
+//			Optional<Categoria> optCategoria = cr.findById(idCategorias.get(i));
+//			categorias.add(optCategoria.get());
+//		}
+//		for (Categoria categoria : categorias) {
+//			post.getCategorias().add(categoria);
+//		}
+//		return post;
+//	}
 
 	private Post adicionarCategoria(Post post, ArrayList<Long> idCategorias) {
+		
+		if (idCategorias == null) {
+			return null;
+		}
+		
 		for (Long id : idCategorias) {
 			Optional<Categoria> objCategoria = cr.findById(id);
 			post.getCategorias().add(objCategoria.get());

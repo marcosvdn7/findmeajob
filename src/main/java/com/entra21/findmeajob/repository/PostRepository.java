@@ -11,7 +11,8 @@ import com.entra21.findmeajob.models.Usuario;
 public interface PostRepository extends JpaRepository<Post, Long> {
 	
 	Optional<Post> findById(Long id);
-
+	
 	List<Post> findByUsuario(Usuario usuario);
+	
 	
 }

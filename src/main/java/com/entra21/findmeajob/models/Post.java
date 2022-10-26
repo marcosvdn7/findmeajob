@@ -101,6 +101,10 @@ public class Post {
 		return categorias;
 	}
 	
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(idPublicacao);
